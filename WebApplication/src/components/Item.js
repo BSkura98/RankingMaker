@@ -1,19 +1,29 @@
 import React from "react";
 import { Col, ListGroupItem, Row } from "react-bootstrap";
+import { Draggable } from "react-beautiful-dnd";
 
-const Item = ({ position, name, description }) => {
+const Item = ({ item, index }) => {
   return (
-    <ListGroupItem>
-      <Row>
-        <Col className="col-sm-1 text-left">{position}</Col>
-        <Col className="text-left">
+    <Draggable key={item.id} draggableId={item.id} index={index}>
+      {(provided) => (
+        <ListGroupItem
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
           <Row>
-            <b>{name}</b>
+            <Col className="col-sm-1 text-left">{index + 1}</Col>
+            <Col className="text-left">
+              <Row>
+                <b>{item.name}</b>
+              </Row>
+              <Row>{item.description}</Row>
+            </Col>
           </Row>
-          <Row>{description}</Row>
-        </Col>
-      </Row>
-    </ListGroupItem>
+          {provided.placeholder}
+        </ListGroupItem>
+      )}
+    </Draggable>
   );
 };
 
