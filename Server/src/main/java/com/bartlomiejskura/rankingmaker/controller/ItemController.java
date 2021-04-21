@@ -42,4 +42,9 @@ public class ItemController {
     public void deleteItem(@RequestParam(name="itemId")Long itemId){
         itemService.deleteItem(itemId);
     }
+
+    @PutMapping("/updateItems")
+    public List<Item> updateItems(@RequestBody List<Item> items){
+        return itemService.updateItems(items);
+    }
 }

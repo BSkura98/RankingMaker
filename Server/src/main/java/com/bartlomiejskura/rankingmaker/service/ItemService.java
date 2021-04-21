@@ -32,4 +32,11 @@ public class ItemService {
     public void deleteItem(Long itemId){
         itemRepository.deleteById(itemId);
     }
+
+    public List<Item> updateItems(List<Item> items){
+        for(Item item:items){
+            itemRepository.save(item);
+        }
+        return items;
+    }
 }
