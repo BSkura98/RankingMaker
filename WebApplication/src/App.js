@@ -1,39 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Card, Container, ListGroup } from "react-bootstrap";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Item from "./components/Item";
 
-const finalItems = [
-  {
-    id: "1",
-    name: "Item 1",
-    description: "This is description. This is description.",
-  },
-  {
-    id: "2",
-    name: "Item 2",
-    description: "This is description. This is description.",
-  },
-  {
-    id: "3",
-    name: "Item 3",
-    description: "This is description. This is description.",
-  },
-  {
-    id: "4",
-    name: "Item 4",
-    description: "This is description. This is description.",
-  },
-  {
-    id: "5",
-    name: "Item 5",
-    description: "This is description. This is description.",
-  },
-];
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(async () => {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    setData(data);
+    setLoading(false);
+  }, []);
+
+  return { data, loading };
+};
 
 function App() {
-  const [items, setItems] = useState(finalItems);
+  const [items, setItems] = useState({});
+  const { data, loading } = useFetch(
+    "http://localhost:8080/ranking?rankingId=1"
+  );
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -44,22 +34,39 @@ function App() {
     setItems(newItems);
   };
 
+  useEffect(() => {
+    if (data != null) {
+      setItems(
+        data.items.map((item) => {
+          return { ...item, id: item.id.toString() };
+        })
+      );
+    }
+  }, [data]);
+
   return (
     <div className="App">
       <Container>
         <Card style={{ marginTop: "5rem" }}>
           <h1 className="text-center">Ranking</h1>
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="items">
-              {(provided) => (
-                <ListGroup {...provided.droppableProps} ref={provided.innerRef}>
-                  {items.map((item, index) => {
-                    return <Item item={item} index={index} />;
-                  })}
-                </ListGroup>
-              )}
-            </Droppable>
-          </DragDropContext>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="items">
+                {(provided) => (
+                  <ListGroup
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {items.map((item, index) => {
+                      return <Item item={item} index={index} />;
+                    })}
+                  </ListGroup>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
         </Card>
       </Container>
     </div>
