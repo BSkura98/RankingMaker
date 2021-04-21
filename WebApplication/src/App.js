@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Card, Container, ListGroup } from "react-bootstrap";
+import { Card, Container, ListGroup, Form, Col, Button } from "react-bootstrap";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Item from "./components/Item";
 
@@ -24,6 +24,8 @@ function App() {
   const { data, loading } = useFetch(
     "http://localhost:8080/ranking?rankingId=1"
   );
+  const [newName, setNewName] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -32,6 +34,23 @@ function App() {
     newItems.splice(result.destination.index, 0, reorderedItem);
 
     setItems(newItems);
+  };
+
+  const addItem = (e) => {
+    e.preventDefault();
+    if (newName) {
+      const item = {
+        position: items.length,
+        name: newName,
+        description: newDescription,
+        id: new Date().getTime().toString(),
+      };
+      setItems((items) => {
+        return [...items, item];
+      });
+      setNewName("");
+      setNewDescription("");
+    }
   };
 
   useEffect(() => {
@@ -52,20 +71,45 @@ function App() {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="items">
-                {(provided) => (
-                  <ListGroup
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {items.map((item, index) => {
-                      return <Item item={item} index={index} />;
-                    })}
-                  </ListGroup>
-                )}
-              </Droppable>
-            </DragDropContext>
+            <div>
+              <Form className="mb-2 ml-2 mr-2" onSubmit={addItem}>
+                <div className="form-row">
+                  <Col>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="name"
+                      value={newName}
+                      onChange={(e) => setNewName(e.target.value)}
+                    />
+                  </Col>
+                  <Col className="col-9">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="description"
+                      value={newDescription}
+                      onChange={(e) => setNewDescription(e.target.value)}
+                    />
+                  </Col>
+                  <Button type="submit">Add</Button>
+                </div>
+              </Form>
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="items">
+                  {(provided) => (
+                    <ListGroup
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {items.map((item, index) => {
+                        return <Item item={item} index={index} />;
+                      })}
+                    </ListGroup>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </div>
           )}
         </Card>
       </Container>
