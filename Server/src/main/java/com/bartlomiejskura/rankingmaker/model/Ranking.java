@@ -1,6 +1,9 @@
 package com.bartlomiejskura.rankingmaker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "rankings")
@@ -10,6 +13,10 @@ public class Ranking {
     private Long ID;
 
     private String name;
+
+    @OneToMany(mappedBy = "ranking")
+    @JsonIgnoreProperties({"ranking"})
+    private Set<Item> items;
 
     public Ranking() {
     }
@@ -28,5 +35,13 @@ public class Ranking {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<Item> items) {
+        this.items = items;
     }
 }
