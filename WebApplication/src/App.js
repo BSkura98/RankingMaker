@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Card, Container, ListGroup, Form, Col, Button } from "react-bootstrap";
+import {
+  Card,
+  Container,
+  ListGroup,
+  Form,
+  Col,
+  Button,
+  Row,
+} from "react-bootstrap";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Item from "./components/Item";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: `http://localhost:8080/item`,
+});
 
 const useFetch = (url) => {
   const [data, setData] = useState(null);
@@ -20,9 +33,11 @@ const useFetch = (url) => {
 };
 
 function App() {
+  const rankingId = 1;
+
   const [items, setItems] = useState({});
   const { data, loading } = useFetch(
-    "http://localhost:8080/ranking?rankingId=1"
+    "http://localhost:8080/ranking?rankingId=" + rankingId
   );
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
@@ -32,6 +47,9 @@ function App() {
     const newItems = Array.from(items);
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
+    newItems.map((item, index) => {
+      item.position = index + 1;
+    });
 
     setItems(newItems);
   };
@@ -40,10 +58,11 @@ function App() {
     e.preventDefault();
     if (newName) {
       const item = {
-        position: items.length,
+        position: items.length + 1,
         name: newName,
         description: newDescription,
-        id: new Date().getTime().toString(),
+        id: "falseid" + new Date().getTime().toString(),
+        ranking: { id: rankingId },
       };
       setItems((items) => {
         return [...items, item];
@@ -53,12 +72,45 @@ function App() {
     }
   };
 
+  const updateItems = async (e) => {
+    e.preventDefault();
+    let updatedItems = items;
+    updatedItems = updatedItems.map((item) => {
+      console.log(item);
+      if (item.id.startsWith("falseid")) {
+        item.id = null;
+      } else {
+        item.id = parseInt(item.id);
+      }
+      item.ranking = { id: rankingId };
+      return item;
+    });
+
+    const result = await api.put("/updateItems", updatedItems);
+    if (result.data != null) {
+      setItems(
+        result.data
+          .sort((a, b) => (a.position > b.position ? 1 : -1))
+          .map((item) => {
+            return { ...item, id: item.id.toString() };
+          })
+      );
+    }
+  };
+
+  const displayItems = (e) => {
+    e.preventDefault();
+    console.log(items);
+  };
+
   useEffect(() => {
     if (data != null) {
       setItems(
-        data.items.map((item) => {
-          return { ...item, id: item.id.toString() };
-        })
+        data.items
+          .sort((a, b) => (a.position > b.position ? 1 : -1))
+          .map((item) => {
+            return { ...item, id: item.id.toString() };
+          })
       );
     }
   }, [data]);
@@ -68,6 +120,14 @@ function App() {
       <Container>
         <Card style={{ marginTop: "5rem" }}>
           <h1 className="text-center">Ranking</h1>
+          <Row>
+            <Col>
+              <Button onClick={(e) => displayItems(e)}>items</Button>
+            </Col>
+            <Col>
+              <Button onClick={(e) => updateItems(e)}>save</Button>
+            </Col>
+          </Row>
           {loading ? (
             <div>Loading...</div>
           ) : (
