@@ -3,6 +3,7 @@ import axios from "axios";
 import { Container, Card, Form, Button, ListGroup } from "react-bootstrap";
 import RankingRow from "./RankingRow";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { Link } from "react-router-dom";
 
 const api = axios.create({
   baseURL: `http://localhost:8080/ranking`,
@@ -81,7 +82,15 @@ const RankingList = () => {
                     ref={provided.innerRef}
                   >
                     {rankings.map((ranking, index) => {
-                      return <RankingRow ranking={ranking} index={index} />;
+                      return (
+                        <RankingRow
+                          ranking={ranking}
+                          index={index}
+                          api={api}
+                          setRankings={setRankings}
+                          rankings={rankings}
+                        />
+                      );
                     })}
                   </ListGroup>
                 )}

@@ -128,6 +128,9 @@ function Ranking() {
             <Col>
               <Button onClick={(e) => updateItems(e)}>save</Button>
             </Col>
+            <Col>
+              <Link to={`/`}>Back</Link>
+            </Col>
           </Row>
           {loading ? (
             <div>Loading...</div>
