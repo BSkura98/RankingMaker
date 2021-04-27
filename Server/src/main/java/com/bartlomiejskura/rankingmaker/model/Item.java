@@ -15,12 +15,20 @@ public class Item {
     private String name;
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = "items", allowSetters = true)
-    @JoinTable(name="ranking_item",
-            joinColumns = {@JoinColumn(name="itemId")},
-            inverseJoinColumns = {@JoinColumn(name="rankingId")})
-    private List<Ranking> rankings;
+    //@ManyToMany(fetch = FetchType.LAZY)
+    //@JsonIgnoreProperties(value = "items", allowSetters = true)
+    //@JoinTable(name="ranking_item",
+    //        joinColumns = {@JoinColumn(name="itemId")},
+    //        inverseJoinColumns = {@JoinColumn(name="rankingId")})
+    //private List<Ranking> rankings;
+
+    @ManyToOne
+    @JsonIgnoreProperties({"rankings", "items"})
+    @JoinColumn(name = "ranking_group_id")
+    private RankingGroup rankingGroup;
+
+    @OneToMany(mappedBy = "item")
+    private List<RankedItem> rankedItems;
 
     public Item() {
     }
@@ -49,11 +57,27 @@ public class Item {
         this.description = description;
     }
 
-    public List<Ranking> getRankings() {
-        return rankings;
+    //public List<Ranking> getRankings() {
+    //    return rankings;
+    //}
+//
+    //public void setRankings(List<Ranking> rankings) {
+    //    this.rankings = rankings;
+    //}
+
+    public List<RankedItem> getRankedItems() {
+        return rankedItems;
     }
 
-    public void setRankings(List<Ranking> rankings) {
-        this.rankings = rankings;
+    public void setRankedItems(List<RankedItem> rankedItems) {
+        this.rankedItems = rankedItems;
+    }
+
+    public RankingGroup getRankingGroup() {
+        return rankingGroup;
+    }
+
+    public void setRankingGroup(RankingGroup rankingGroup) {
+        this.rankingGroup = rankingGroup;
     }
 }

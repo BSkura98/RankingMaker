@@ -18,6 +18,10 @@ public class RankingGroup {
     @JsonIgnoreProperties({"rankingGroup"})
     private List<Ranking> rankings;
 
+    @OneToMany(mappedBy = "rankingGroup")
+    @JsonIgnoreProperties({"rankingGroup"})
+    private List<Item> items;
+
     public RankingGroup() {
     }
 
@@ -43,5 +47,13 @@ public class RankingGroup {
 
     public void setRankings(List<Ranking> rankings) {
         this.rankings = rankings;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }
