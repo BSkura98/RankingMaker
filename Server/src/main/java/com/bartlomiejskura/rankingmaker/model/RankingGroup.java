@@ -6,23 +6,19 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "items")
-public class Item {
+@Table(name = "ranking_groups")
+public class RankingGroup {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long ID;
 
     private String name;
-    private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = "items", allowSetters = true)
-    @JoinTable(name="ranking_item",
-            joinColumns = {@JoinColumn(name="itemId")},
-            inverseJoinColumns = {@JoinColumn(name="rankingId")})
+    @OneToMany(mappedBy = "rankingGroup")
+    @JsonIgnoreProperties({"rankingGroup"})
     private List<Ranking> rankings;
 
-    public Item() {
+    public RankingGroup() {
     }
 
     public Long getID() {
@@ -39,14 +35,6 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<Ranking> getRankings() {
