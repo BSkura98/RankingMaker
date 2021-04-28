@@ -15,13 +15,6 @@ public class Item {
     private String name;
     private String description;
 
-    //@ManyToMany(fetch = FetchType.LAZY)
-    //@JsonIgnoreProperties(value = "items", allowSetters = true)
-    //@JoinTable(name="ranking_item",
-    //        joinColumns = {@JoinColumn(name="itemId")},
-    //        inverseJoinColumns = {@JoinColumn(name="rankingId")})
-    //private List<Ranking> rankings;
-
     @ManyToOne
     @JsonIgnoreProperties({"rankings", "items"})
     @JoinColumn(name = "ranking_group_id")
@@ -56,14 +49,6 @@ public class Item {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    //public List<Ranking> getRankings() {
-    //    return rankings;
-    //}
-//
-    //public void setRankings(List<Ranking> rankings) {
-    //    this.rankings = rankings;
-    //}
 
     public List<RankedItem> getRankedItems() {
         return rankedItems;

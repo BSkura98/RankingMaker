@@ -1,7 +1,6 @@
 package com.bartlomiejskura.rankingmaker.service;
 
 import com.bartlomiejskura.rankingmaker.exception.EntityNotFoundException;
-import com.bartlomiejskura.rankingmaker.model.Item;
 import com.bartlomiejskura.rankingmaker.model.Ranking;
 import com.bartlomiejskura.rankingmaker.model.RankingGroup;
 import com.bartlomiejskura.rankingmaker.repository.RankingGroupRepository;
