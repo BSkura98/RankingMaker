@@ -8,6 +8,7 @@ import {
   Col,
   Button,
   Row,
+  ListGroupItem,
 } from "react-bootstrap";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import Item from "./components/Item";
@@ -42,6 +43,9 @@ function Ranking() {
   );
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const [displayExistingItems, setDisplayExistingItems] = useState(false);
+  const [ranking, setRanking] = useState({});
+  const [existingItems, setExistingItems] = useState([]);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -55,7 +59,7 @@ function Ranking() {
     setItems(newItems);
   };
 
-  const addItem = (e) => {
+  const addItem = (e, itemId) => {
     e.preventDefault();
     if (newName) {
       const item = {
@@ -65,6 +69,7 @@ function Ranking() {
           name: newName,
           description: newDescription,
           rankingGroup: { id: data.rankingGroup.id },
+          id: itemId,
         },
       };
       setItems((items) => {
@@ -106,8 +111,48 @@ function Ranking() {
     console.log(items);
   };
 
+  const getExistingItems = async () => {
+    if (displayExistingItems) {
+      setDisplayExistingItems(false);
+      return;
+    }
+    const apiItem = axios.create({
+      baseURL: `http://localhost:8080/item`,
+    });
+    let data = await apiItem
+      .get(
+        "/getNotBelongingToRanking?rankingGroupId=" +
+          ranking.rankingGroup.id +
+          "&rankingId=" +
+          ranking.id
+      )
+      .then(({ data }) => data);
+    console.log(data);
+    data = data.map((item) => {
+      return { ...item, id: item.id.toString() };
+    });
+    setExistingItems(data);
+    setDisplayExistingItems(true);
+  };
+
+  const addExistingItem = (e, item) => {
+    e.preventDefault();
+    const existingItem = {
+      id: "falseid" + new Date().getTime().toString(),
+      position: items.length + 1,
+      item,
+    };
+    setItems((items) => {
+      return [...items, existingItem];
+    });
+    setNewName("");
+    setNewDescription("");
+    setDisplayExistingItems(false);
+  };
+
   useEffect(() => {
     if (data != null && data.rankedItems != null) {
+      setRanking(data);
       setItems(
         data.rankedItems
           .sort((a, b) => (a.position > b.position ? 1 : -1))
@@ -123,19 +168,48 @@ function Ranking() {
       <Container>
         <Card style={{ marginTop: "5rem" }}>
           <h1 className="text-center">Ranking</h1>
-          <Row>
-            <Col>
-              <Button onClick={(e) => displayItems(e)}>items</Button>
-            </Col>
-            <Col>
-              <Button onClick={(e) => updateItems(e)}>save</Button>
-            </Col>
-            {loading || (
+          {displayExistingItems && (
+            <ListGroup className="overflow-auto" style={{ height: "150px" }}>
+              {existingItems.map((item, index) => {
+                return (
+                  <ListGroupItem>
+                    <Row>
+                      <Col className="text-left">
+                        <Row>
+                          <b>{item.name}</b>
+                        </Row>
+                        <Row>{item.description}</Row>
+                      </Col>
+                      <Button
+                        className="btn btn-primary ml-4"
+                        onClick={(e) => addExistingItem(e, item)}
+                      >
+                        Add
+                      </Button>
+                    </Row>
+                  </ListGroupItem>
+                );
+              })}
+            </ListGroup>
+          )}
+          {loading || (
+            <Row>
+              <Col>
+                <Button onClick={(e) => displayItems(e)}>items</Button>
+              </Col>
+              <Col>
+                <Button onClick={(e) => updateItems(e)}>save</Button>
+              </Col>
+              <Col>
+                <Button onClick={(e) => getExistingItems(e)}>
+                  Add existing item
+                </Button>
+              </Col>
               <Col>
                 <Link to={`/rankingGroup/${data.rankingGroup.id}`}>Back</Link>
               </Col>
-            )}
-          </Row>
+            </Row>
+          )}
           {loading ? (
             <div>Loading...</div>
           ) : (
