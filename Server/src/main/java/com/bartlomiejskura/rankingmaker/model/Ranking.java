@@ -13,6 +13,7 @@ public class Ranking {
     private Long ID;
 
     private String name;
+    private Integer position;
 
     @ManyToOne
     @JsonIgnoreProperties({"rankings", "items"})
@@ -22,13 +23,6 @@ public class Ranking {
     @OneToMany(mappedBy = "ranking")
     @JsonIgnoreProperties({"ranking"})
     private List<RankedItem> rankedItems;
-
-    //@ManyToMany(fetch = FetchType.LAZY)
-    //@JsonIgnoreProperties(value = "rankings", allowSetters = true)
-    //@JoinTable(name="ranking_item",
-    //        joinColumns = {@JoinColumn(name="rankingId")},
-    //        inverseJoinColumns = {@JoinColumn(name="itemId")})
-    //private List<Item> items;
 
     public Ranking() {
     }
@@ -49,14 +43,6 @@ public class Ranking {
         this.name = name;
     }
 
-    //public List<Item> getItems() {
-    //    return items;
-    //}
-//
-    //public void setItems(List<Item> items) {
-    //    this.items = items;
-    //}
-
     public RankingGroup getRankingGroup() {
         return rankingGroup;
     }
@@ -71,5 +57,13 @@ public class Ranking {
 
     public void setRankedItems(List<RankedItem> rankedItems) {
         this.rankedItems = rankedItems;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }
