@@ -10,6 +10,7 @@ import com.bartlomiejskura.rankingmaker.repository.RankingGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,5 +56,25 @@ public class ItemService {
     public List<Item> getAllInGroup(Long rankingGroupId) throws EntityNotFoundException {
         RankingGroup rankingGroup = rankingGroupRepository.findById(rankingGroupId).orElseThrow(EntityNotFoundException::new);
         return rankingGroup.getItems();
+    }
+
+    public List<Item> getAllInGroupNotBelongingToRanking(Long rankingGroupId, Long rankingId) throws EntityNotFoundException {
+        RankingGroup rankingGroup = rankingGroupRepository.findById(rankingGroupId).orElseThrow(EntityNotFoundException::new);
+        List<Item> items = rankingGroup.getItems();
+        List<Item> newItems = new ArrayList<>();
+        boolean itemBelongs;
+        for(Item item:items){
+            List<RankedItem> rankedItems = item.getRankedItems();
+            itemBelongs = false;
+            for(RankedItem rankedItem:rankedItems){
+                if(rankedItem.getRanking().getID().equals(rankingId)){
+                    itemBelongs = true;
+                }
+            }
+            if(!itemBelongs){
+                newItems.add(item);
+            }
+        }
+        return newItems;
     }
 }

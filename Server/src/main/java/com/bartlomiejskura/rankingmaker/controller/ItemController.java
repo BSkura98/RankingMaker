@@ -57,4 +57,13 @@ public class ItemController {
             return null;
         }
     }
+
+    @GetMapping("/getNotBelongingToRanking")
+    public List<Item> getAllInGroupNotBelongingToRanking(@RequestParam(name="rankingGroupId")Long rankingGroupId, @RequestParam(name="rankingId")Long rankingId){
+        try {
+            return itemService.getAllInGroupNotBelongingToRanking(rankingGroupId, rankingId);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
+    }
 }
