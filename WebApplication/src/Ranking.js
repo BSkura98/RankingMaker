@@ -15,7 +15,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 const api = axios.create({
-  baseURL: `http://localhost:8080/item`,
+  baseURL: `http://localhost:8080/rankedItem`,
 });
 
 const useFetch = (url) => {
@@ -59,11 +59,13 @@ function Ranking() {
     e.preventDefault();
     if (newName) {
       const item = {
-        position: items.length + 1,
-        name: newName,
-        description: newDescription,
         id: "falseid" + new Date().getTime().toString(),
-        ranking: { id: rankingId },
+        position: items.length + 1,
+        item: {
+          name: newName,
+          description: newDescription,
+          rankingGroup: { id: data.rankingGroup.id },
+        },
       };
       setItems((items) => {
         return [...items, item];
@@ -77,7 +79,7 @@ function Ranking() {
     e.preventDefault();
     let updatedItems = items;
     updatedItems = updatedItems.map((item) => {
-      console.log(item);
+      //console.log(item);
       if (item.id.startsWith("falseid")) {
         item.id = null;
       } else {
@@ -86,8 +88,8 @@ function Ranking() {
       item.ranking = { id: rankingId };
       return item;
     });
-
-    const result = await api.put("/updateItems", updatedItems);
+    console.log(updatedItems);
+    const result = await api.put("/updateRankedItems", updatedItems);
     if (result.data != null) {
       setItems(
         result.data
@@ -105,9 +107,9 @@ function Ranking() {
   };
 
   useEffect(() => {
-    if (data != null && data.items != null) {
+    if (data != null && data.rankedItems != null) {
       setItems(
-        data.items
+        data.rankedItems
           .sort((a, b) => (a.position > b.position ? 1 : -1))
           .map((item) => {
             return { ...item, id: item.id.toString() };
