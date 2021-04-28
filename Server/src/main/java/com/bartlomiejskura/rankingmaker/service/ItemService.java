@@ -2,9 +2,10 @@ package com.bartlomiejskura.rankingmaker.service;
 
 import com.bartlomiejskura.rankingmaker.exception.EntityNotFoundException;
 import com.bartlomiejskura.rankingmaker.model.Item;
-import com.bartlomiejskura.rankingmaker.model.Ranking;
+import com.bartlomiejskura.rankingmaker.model.RankedItem;
 import com.bartlomiejskura.rankingmaker.model.RankingGroup;
 import com.bartlomiejskura.rankingmaker.repository.ItemRepository;
+import com.bartlomiejskura.rankingmaker.repository.RankedItemRepository;
 import com.bartlomiejskura.rankingmaker.repository.RankingGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ import java.util.List;
 public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private RankedItemRepository rankedItemRepository;
 
     @Autowired
     private RankingGroupRepository rankingGroupRepository;
@@ -35,7 +39,9 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public void deleteItem(Long itemId){
+    public void deleteItem(Long itemId) throws EntityNotFoundException {
+        Item item = itemRepository.findById(itemId).orElseThrow(EntityNotFoundException::new);
+        rankedItemRepository.deleteAll(item.getRankedItems());
         itemRepository.deleteById(itemId);
     }
 

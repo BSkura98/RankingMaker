@@ -57,4 +57,12 @@ public class RankedItemService {
         }
         return rankedItems;
     }
+
+    public List<RankedItem> deleteRankedItemAndUpdateOthers(Long rankedItemId, List<RankedItem> rankedItems){
+        for(RankedItem rankedItem:rankedItems){
+            editRankedItem(rankedItem);
+        }
+        deleteRankedItem(rankedItemId);
+        return rankedItems;
+    }
 }

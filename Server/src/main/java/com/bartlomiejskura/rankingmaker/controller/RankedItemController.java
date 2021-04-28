@@ -47,4 +47,9 @@ public class RankedItemController {
     public List<RankedItem> updateRankedItems(@RequestBody List<RankedItem> rankedItems){
         return rankedItemService.updateRankedItems(rankedItems);
     }
+
+    @PutMapping("/delete")
+    public List<RankedItem> deleteRankedItemAndUpdateOthers(@RequestParam(name="rankedItemId")Long rankedItemId, @RequestBody List<RankedItem> rankedItems){
+        return rankedItemService.deleteRankedItemAndUpdateOthers(rankedItemId, rankedItems);
+    }
 }

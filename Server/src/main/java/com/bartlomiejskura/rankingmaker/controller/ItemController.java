@@ -40,7 +40,7 @@ public class ItemController {
     }
 
     @DeleteMapping
-    public void deleteItem(@RequestParam(name="itemId")Long itemId){
+    public void deleteItem(@RequestParam(name="itemId")Long itemId) throws EntityNotFoundException {
         itemService.deleteItem(itemId);
     }
 
