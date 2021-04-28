@@ -15,9 +15,9 @@ const Item = ({ item, index }) => {
             <Col className="col-sm-1 text-left">{index + 1}</Col>
             <Col className="text-left">
               <Row>
-                <b>{item.name}</b>
+                <b>{item.item.name}</b>
               </Row>
-              <Row>{item.description}</Row>
+              <Row>{item.item.description}</Row>
             </Col>
           </Row>
           {provided.placeholder}

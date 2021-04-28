@@ -42,4 +42,13 @@ public class RankingController {
     public void deleteRanking(@RequestParam(name="rankingId")Long rankingId){
         rankingService.deleteRanking(rankingId);
     }
+
+    @GetMapping("/getAllInGroup")
+    public List<Ranking> getAllInGroup(@RequestParam(name="rankingGroupId")Long rankingGroupId){
+        try {
+            return rankingService.getAllInGroup(rankingGroupId);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
+    }
 }

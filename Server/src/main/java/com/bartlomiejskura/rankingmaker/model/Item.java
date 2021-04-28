@@ -1,6 +1,9 @@
 package com.bartlomiejskura.rankingmaker.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "items")
@@ -9,13 +12,23 @@ public class Item {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long ID;
 
-    @ManyToOne
-    @JoinColumn(name = "ranking_id")
-    private Ranking ranking;
-
     private String name;
     private String description;
-    private Integer position;
+
+    //@ManyToMany(fetch = FetchType.LAZY)
+    //@JsonIgnoreProperties(value = "items", allowSetters = true)
+    //@JoinTable(name="ranking_item",
+    //        joinColumns = {@JoinColumn(name="itemId")},
+    //        inverseJoinColumns = {@JoinColumn(name="rankingId")})
+    //private List<Ranking> rankings;
+
+    @ManyToOne
+    @JsonIgnoreProperties({"rankings", "items"})
+    @JoinColumn(name = "ranking_group_id")
+    private RankingGroup rankingGroup;
+
+    @OneToMany(mappedBy = "item")
+    private List<RankedItem> rankedItems;
 
     public Item() {
     }
@@ -26,14 +39,6 @@ public class Item {
 
     public void setID(Long ID) {
         this.ID = ID;
-    }
-
-    public Ranking getRanking() {
-        return ranking;
-    }
-
-    public void setRanking(Ranking ranking) {
-        this.ranking = ranking;
     }
 
     public String getName() {
@@ -52,11 +57,27 @@ public class Item {
         this.description = description;
     }
 
-    public Integer getPosition() {
-        return position;
+    //public List<Ranking> getRankings() {
+    //    return rankings;
+    //}
+//
+    //public void setRankings(List<Ranking> rankings) {
+    //    this.rankings = rankings;
+    //}
+
+    public List<RankedItem> getRankedItems() {
+        return rankedItems;
     }
 
-    public void setPosition(Integer position) {
-        this.position = position;
+    public void setRankedItems(List<RankedItem> rankedItems) {
+        this.rankedItems = rankedItems;
+    }
+
+    public RankingGroup getRankingGroup() {
+        return rankingGroup;
+    }
+
+    public void setRankingGroup(RankingGroup rankingGroup) {
+        this.rankingGroup = rankingGroup;
     }
 }

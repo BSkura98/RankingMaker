@@ -13,6 +13,7 @@ const RankingList = () => {
   const [loading, setLoading] = useState(true);
   const [rankings, setRankings] = useState([]);
   const [rankingName, setRankingName] = useState("");
+  const [rankingGroupId, setRankingGroupId] = useState(40);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -28,6 +29,9 @@ const RankingList = () => {
     if (rankingName) {
       const ranking = {
         name: rankingName,
+        rankingGroup: {
+          id: rankingGroupId,
+        },
       };
       const result = await api.post("/", ranking);
       if (result && result.data) {
@@ -41,7 +45,9 @@ const RankingList = () => {
   };
 
   const getRankings = async () => {
-    let data = await api.get("/getAll").then(({ data }) => data);
+    let data = await api
+      .get("/getAllInGroup?rankingGroupId=" + rankingGroupId)
+      .then(({ data }) => data);
     data = data.map((ranking) => {
       return { ...ranking, id: ranking.id.toString() };
     });
