@@ -17,11 +17,14 @@ const RankingList = () => {
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
-    const newItems = Array.from(rankings);
-    const [reorderedItem] = newItems.splice(result.source.index, 1);
-    newItems.splice(result.destination.index, 0, reorderedItem);
+    const newRankings = Array.from(rankings);
+    const [reorderedRanking] = newRankings.splice(result.source.index, 1);
+    newRankings.splice(result.destination.index, 0, reorderedRanking);
+    newRankings.map((ranking, index) => {
+      ranking.position = index + 1;
+    });
 
-    setRankings(newItems);
+    setRankings(newRankings);
   };
 
   const addRanking = async (e) => {
@@ -32,6 +35,7 @@ const RankingList = () => {
         rankingGroup: {
           id: rankingGroupId,
         },
+        position: rankings.length + 1,
       };
       const result = await api.post("/", ranking);
       if (result && result.data) {
@@ -44,6 +48,25 @@ const RankingList = () => {
     }
   };
 
+  const updateRankings = async (e) => {
+    e.preventDefault();
+    let updatedRankings = rankings;
+    updatedRankings = updatedRankings.map((ranking) => {
+      ranking.id = parseInt(ranking.id);
+      return ranking;
+    });
+    const result = await api.put("/updateRankings", updatedRankings);
+    if (result.data != null) {
+      setRankings(
+        result.data
+          .sort((a, b) => (a.position > b.position ? 1 : -1))
+          .map((item) => {
+            return { ...item, id: item.id.toString() };
+          })
+      );
+    }
+  };
+
   const getRankings = async () => {
     let data = await api
       .get("/getAllInGroup?rankingGroupId=" + rankingGroupId)
@@ -52,6 +75,11 @@ const RankingList = () => {
       return { ...ranking, id: ranking.id.toString() };
     });
     setLoading(false);
+    data = data
+      .sort((a, b) => (a.position > b.position ? 1 : -1))
+      .map((ranking) => {
+        return { ...ranking, id: ranking.id.toString() };
+      });
     setRankings(data);
     console.log(rankings);
   };
@@ -69,6 +97,7 @@ const RankingList = () => {
         ) : (
           <div>
             <Link to={`/`}>Back</Link>
+            <Button onClick={(e) => updateRankings(e)}>Save</Button>
             <Form className="mb-2 ml-2 mr-2" onSubmit={addRanking}>
               <div className="form-row">
                 <input
