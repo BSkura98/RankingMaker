@@ -78,14 +78,14 @@ function Ranking() {
   const updateItems = async (e) => {
     e.preventDefault();
     let updatedItems = items;
-    updatedItems = updatedItems.map((item) => {
-      //console.log(item);
+    updatedItems = updatedItems.map((item, index) => {
       if (item.id.startsWith("falseid")) {
         item.id = null;
       } else {
         item.id = parseInt(item.id);
       }
       item.ranking = { id: rankingId };
+      item.position = index + 1;
       return item;
     });
     console.log(updatedItems);
@@ -171,7 +171,16 @@ function Ranking() {
                       ref={provided.innerRef}
                     >
                       {items.map((item, index) => {
-                        return <Item item={item} index={index} />;
+                        return (
+                          <Item
+                            item={item}
+                            index={index}
+                            api={api}
+                            items={items}
+                            setItems={setItems}
+                            rankingId={rankingId}
+                          />
+                        );
                       })}
                     </ListGroup>
                   )}

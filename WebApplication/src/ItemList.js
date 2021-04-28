@@ -42,6 +42,17 @@ const ItemList = () => {
     }
   };
 
+  const deleteItem = async (e, item, index) => {
+    e.preventDefault();
+    const result = await api.delete(`?itemId=${item.id}`);
+    console.log(result);
+    if (result.status === 200) {
+      let netItems = [...items];
+      netItems.splice(index, 1);
+      setItems(netItems);
+    }
+  };
+
   const getItems = async () => {
     let data = await api
       .get("/getAllInGroup?rankingGroupId=" + rankingGroupId)
@@ -90,7 +101,7 @@ const ItemList = () => {
               </div>
             </Form>
             <ListGroup>
-              {items.map((item) => {
+              {items.map((item, index) => {
                 return (
                   <ListGroupItem>
                     <Row>
@@ -100,6 +111,12 @@ const ItemList = () => {
                         </Row>
                         <Row>{item.description}</Row>
                       </Col>
+                      <Button
+                        className="btn btn-danger ml-4"
+                        onClick={(e) => deleteItem(e, item, index)}
+                      >
+                        Delete
+                      </Button>
                     </Row>
                   </ListGroupItem>
                 );
