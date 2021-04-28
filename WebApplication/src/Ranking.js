@@ -30,7 +30,7 @@ const useFetch = (url) => {
     setLoading(false);
   }, []);
 
-  return { data, loading };
+  return { data: data, loading };
 };
 
 function Ranking() {
@@ -130,9 +130,11 @@ function Ranking() {
             <Col>
               <Button onClick={(e) => updateItems(e)}>save</Button>
             </Col>
-            <Col>
-              <Link to={`/`}>Back</Link>
-            </Col>
+            {loading || (
+              <Col>
+                <Link to={`/rankingGroup/${data.rankingGroup.id}`}>Back</Link>
+              </Col>
+            )}
           </Row>
           {loading ? (
             <div>Loading...</div>

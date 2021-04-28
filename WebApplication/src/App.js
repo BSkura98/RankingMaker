@@ -2,14 +2,19 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import RankingList from "./RankingList";
 import Ranking from "./Ranking";
+import RankingGroupList from "./RankingGroupList";
 
 const ReactRouterSetup = () => {
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <RankingList />
+          <RankingGroupList />
         </Route>
+        <Route
+          path="/rankingGroup/:rankingGroupId"
+          children={<RankingList />}
+        ></Route>
         <Route path="/ranking/:rankingId" children={<Ranking />}></Route>
       </Switch>
     </Router>

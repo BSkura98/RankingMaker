@@ -3,7 +3,7 @@ import axios from "axios";
 import { Container, Card, Form, Button, ListGroup } from "react-bootstrap";
 import RankingRow from "./RankingRow";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const api = axios.create({
   baseURL: `http://localhost:8080/ranking`,
@@ -13,7 +13,7 @@ const RankingList = () => {
   const [loading, setLoading] = useState(true);
   const [rankings, setRankings] = useState([]);
   const [rankingName, setRankingName] = useState("");
-  const [rankingGroupId, setRankingGroupId] = useState(40);
+  const { rankingGroupId } = useParams();
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -68,6 +68,7 @@ const RankingList = () => {
           "Loading..."
         ) : (
           <div>
+            <Link to={`/`}>Back</Link>
             <Form className="mb-2 ml-2 mr-2" onSubmit={addRanking}>
               <div className="form-row">
                 <input
