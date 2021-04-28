@@ -54,7 +54,6 @@ public class RankedItemService {
     public List<RankedItem> updateRankedItems(List<RankedItem> rankedItems){
         for(RankedItem rankedItem:rankedItems){
             addRankedItem(rankedItem);
-            //rankedItemRepository.save(rankedItem);
         }
         return rankedItems;
     }

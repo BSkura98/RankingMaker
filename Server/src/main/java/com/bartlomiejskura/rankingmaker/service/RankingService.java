@@ -1,6 +1,7 @@
 package com.bartlomiejskura.rankingmaker.service;
 
 import com.bartlomiejskura.rankingmaker.exception.EntityNotFoundException;
+import com.bartlomiejskura.rankingmaker.model.Item;
 import com.bartlomiejskura.rankingmaker.model.Ranking;
 import com.bartlomiejskura.rankingmaker.model.RankingGroup;
 import com.bartlomiejskura.rankingmaker.repository.RankingGroupRepository;
@@ -41,5 +42,12 @@ public class RankingService {
     public List<Ranking> getAllInGroup(Long rankingGroupId) throws EntityNotFoundException {
         RankingGroup rankingGroup = rankingGroupRepository.findById(rankingGroupId).orElseThrow(EntityNotFoundException::new);
         return rankingGroup.getRankings();
+    }
+
+    public List<Ranking> updateRankings(List<Ranking> rankings){
+        for(Ranking ranking:rankings){
+            rankingRepository.save(ranking);
+        }
+        return rankings;
     }
 }

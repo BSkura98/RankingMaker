@@ -1,6 +1,7 @@
 package com.bartlomiejskura.rankingmaker.controller;
 
 import com.bartlomiejskura.rankingmaker.exception.EntityNotFoundException;
+import com.bartlomiejskura.rankingmaker.model.Item;
 import com.bartlomiejskura.rankingmaker.model.Ranking;
 import com.bartlomiejskura.rankingmaker.service.RankingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,10 @@ public class RankingController {
         } catch (EntityNotFoundException e) {
             return null;
         }
+    }
+
+    @PutMapping("/updateRankings")
+    public List<Ranking> updateRankings(@RequestBody List<Ranking> rankings){
+        return rankingService.updateRankings(rankings);
     }
 }
