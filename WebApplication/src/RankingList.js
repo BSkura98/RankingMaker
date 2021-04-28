@@ -97,6 +97,7 @@ const RankingList = () => {
         ) : (
           <div>
             <Link to={`/`}>Back</Link>
+            <Link to={`/items/${rankingGroupId}`}>Items</Link>
             <Button onClick={(e) => updateRankings(e)}>Save</Button>
             <Form className="mb-2 ml-2 mr-2" onSubmit={addRanking}>
               <div className="form-row">
