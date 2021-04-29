@@ -2,7 +2,7 @@
 This project is divided into two parts: server and web application. It allows you to create your own rankings and store them in the database. You can create groups of rankings and check statistics for items.
 
 ## Screenshots
-<img src="./WebApplication/img/rankingGroups.PNG" height="200"> <img src="./WebApplication/img/rankings.PNG" height="200"> <img src="./WebApplication/img/ranking.PNG" height="200"> <img src="./WebApplication/img/addExistingItem.PNG" height="200">
+<img src="./WebApplication/img/rankingGroups.PNG" height="200"> <img src="./WebApplication/img/rankings.PNG" height="300"> <img src="./WebApplication/img/ranking.PNG" height="300"> <img src="./WebApplication/img/addExistingItem.PNG" height="300">
 
 ## Technologies
 * React.js
