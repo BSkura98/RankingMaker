@@ -27,12 +27,18 @@ const RankingRow = ({ ranking, index, api, setRankings, rankings }) => {
             <Col>
               <b>{ranking.name}</b>
             </Col>
-            <Col>
-              <Link to={`/ranking/${ranking.id}`}>Open</Link>
-              <Button className="btn btn-danger ml-4" onClick={deleteRanking}>
-                Delete
-              </Button>
-            </Col>
+            <Link
+              className="btn btn-primary float-right"
+              to={`/ranking/${ranking.id}`}
+            >
+              Open
+            </Link>
+            <Button
+              className="btn btn-danger ml-4 float-right"
+              onClick={deleteRanking}
+            >
+              Delete
+            </Button>
           </Row>
           {provided.placeholder}
         </ListGroupItem>

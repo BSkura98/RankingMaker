@@ -106,11 +106,6 @@ function Ranking() {
     }
   };
 
-  const displayItems = (e) => {
-    e.preventDefault();
-    console.log(items);
-  };
-
   const getExistingItems = async () => {
     if (displayExistingItems) {
       setDisplayExistingItems(false);
@@ -169,46 +164,55 @@ function Ranking() {
         <Card style={{ marginTop: "5rem" }}>
           <h1 className="text-center">Ranking</h1>
           {displayExistingItems && (
-            <ListGroup className="overflow-auto" style={{ height: "150px" }}>
-              {existingItems.map((item, index) => {
-                return (
-                  <ListGroupItem>
-                    <Row>
-                      <Col className="text-left">
-                        <Row>
-                          <b>{item.name}</b>
-                        </Row>
-                        <Row>{item.description}</Row>
-                      </Col>
-                      <Button
-                        className="btn btn-primary ml-4"
-                        onClick={(e) => addExistingItem(e, item)}
-                      >
-                        Add
-                      </Button>
-                    </Row>
-                  </ListGroupItem>
-                );
-              })}
-            </ListGroup>
+            <div>
+              <h5>Add existing item</h5>
+              <ListGroup className="overflow-auto" style={{ height: "150px" }}>
+                {existingItems.map((item, index) => {
+                  return (
+                    <ListGroupItem>
+                      <Row>
+                        <Col className="text-left">
+                          <Row>
+                            <b>{item.name}</b>
+                          </Row>
+                          <Row>{item.description}</Row>
+                        </Col>
+                        <Button
+                          className="btn btn-primary ml-4"
+                          onClick={(e) => addExistingItem(e, item)}
+                        >
+                          Add
+                        </Button>
+                      </Row>
+                    </ListGroupItem>
+                  );
+                })}
+              </ListGroup>
+            </div>
           )}
           {loading || (
-            <Row>
+            <div className="mb-2">
               <Col>
-                <Button onClick={(e) => displayItems(e)}>items</Button>
-              </Col>
-              <Col>
-                <Button onClick={(e) => updateItems(e)}>save</Button>
-              </Col>
-              <Col>
-                <Button onClick={(e) => getExistingItems(e)}>
+                <Link
+                  className="btn btn-secondary float-right ml-5"
+                  to={`/rankingGroup/${data.rankingGroup.id}`}
+                >
+                  Back
+                </Link>
+                <Button
+                  className="float-right ml-2"
+                  onClick={(e) => updateItems(e)}
+                >
+                  Save
+                </Button>
+                <Button
+                  className="float-right ml-2"
+                  onClick={(e) => getExistingItems(e)}
+                >
                   Add existing item
                 </Button>
               </Col>
-              <Col>
-                <Link to={`/rankingGroup/${data.rankingGroup.id}`}>Back</Link>
-              </Col>
-            </Row>
+            </div>
           )}
           {loading ? (
             <div>Loading...</div>

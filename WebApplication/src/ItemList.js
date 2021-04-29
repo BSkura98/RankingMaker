@@ -72,7 +72,6 @@ const ItemList = () => {
     <Container>
       <Card style={{ marginTop: "5rem" }}>
         <h1 className="text-center">Items</h1>
-        <Link to={`/rankingGroup/${rankingGroupId}`}>Back</Link>
         {loading ? (
           "Loading..."
         ) : (
@@ -88,7 +87,7 @@ const ItemList = () => {
                     onChange={(e) => setNewName(e.target.value)}
                   />
                 </Col>
-                <Col className="col-9">
+                <Col className="col-6">
                   <input
                     type="text"
                     className="form-control"
@@ -98,6 +97,12 @@ const ItemList = () => {
                   />
                 </Col>
                 <Button type="submit">Add</Button>
+                <Link
+                  className="btn btn-secondary ml-5"
+                  to={`/rankingGroup/${rankingGroupId}`}
+                >
+                  Back
+                </Link>
               </div>
             </Form>
             <ListGroup>
@@ -112,12 +117,17 @@ const ItemList = () => {
                         <Row>{item.description}</Row>
                       </Col>
                       <Button
-                        className="btn btn-danger ml-4"
+                        className="btn btn-danger"
                         onClick={(e) => deleteItem(e, item, index)}
                       >
                         Delete
                       </Button>
-                      <Link to={`/itemStatistics/${item.id}`}>Statistics</Link>
+                      <Link
+                        className="btn btn-primary ml-4"
+                        to={`/itemStatistics/${item.id}`}
+                      >
+                        Statistics
+                      </Link>
                     </Row>
                   </ListGroupItem>
                 );

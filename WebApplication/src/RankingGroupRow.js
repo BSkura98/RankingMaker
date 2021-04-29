@@ -26,15 +26,18 @@ const RankingGroupRow = ({
         <Col>
           <b>{rankingGroup.name}</b>
         </Col>
-        <Col>
-          <Link to={`/rankingGroup/${rankingGroup.id}`}>Open</Link>
-          <Button
-            className="btn btn-danger ml-4"
-            onClick={(e) => deleteRankingGroup(e)}
-          >
-            Delete
-          </Button>
-        </Col>
+        <Link
+          className="btn btn-primary float-right text-center"
+          to={`/rankingGroup/${rankingGroup.id}`}
+        >
+          Open
+        </Link>
+        <Button
+          className="btn btn-danger ml-4"
+          onClick={(e) => deleteRankingGroup(e)}
+        >
+          Delete
+        </Button>
       </Row>
     </ListGroupItem>
   );

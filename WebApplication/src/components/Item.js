@@ -53,7 +53,12 @@ const Item = ({
             >
               Delete
             </Button>
-            <Link to={`/itemStatistics/${item.item.id}`}>Statistics</Link>
+            <Link
+              className="btn btn-primary ml-2"
+              to={`/itemStatistics/${item.item.id}`}
+            >
+              Statistics
+            </Link>
           </Row>
           {provided.placeholder}
         </ListGroupItem>

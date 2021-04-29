@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Card, Form, Button, ListGroup } from "react-bootstrap";
+import { Container, Card, Form, Button, ListGroup, Col } from "react-bootstrap";
 import RankingGroupRow from "./RankingGroupRow";
 
 const api = axios.create({
@@ -53,14 +53,18 @@ const RankingGroupList = () => {
           <div>
             <Form className="mb-2 ml-2 mr-2" onSubmit={addRankingGroup}>
               <div className="form-row">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="name"
-                  value={rankingGroupName}
-                  onChange={(e) => setRankingGroupName(e.target.value)}
-                />
-                <Button type="submit">Add</Button>
+                <Col>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="name"
+                    value={rankingGroupName}
+                    onChange={(e) => setRankingGroupName(e.target.value)}
+                  />
+                </Col>
+                <Col>
+                  <Button type="submit">Add</Button>
+                </Col>
               </div>
             </Form>
             <ListGroup>

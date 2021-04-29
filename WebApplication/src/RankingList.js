@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Card, Form, Button, ListGroup } from "react-bootstrap";
+import { Container, Card, Form, Button, ListGroup, Col } from "react-bootstrap";
 import RankingRow from "./RankingRow";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Link, useParams } from "react-router-dom";
@@ -96,19 +96,32 @@ const RankingList = () => {
           "Loading..."
         ) : (
           <div>
-            <Link to={`/`}>Back</Link>
-            <Link to={`/items/${rankingGroupId}`}>Items</Link>
-            <Button onClick={(e) => updateRankings(e)}>Save</Button>
             <Form className="mb-2 ml-2 mr-2" onSubmit={addRanking}>
               <div className="form-row">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="name"
-                  value={rankingName}
-                  onChange={(e) => setRankingName(e.target.value)}
-                />
-                <Button type="submit">Add</Button>
+                <Col>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="name"
+                    value={rankingName}
+                    onChange={(e) => setRankingName(e.target.value)}
+                  />
+                </Col>
+                <Col>
+                  <Button type="submit">Add</Button>
+                  <Button className="ml-5" onClick={(e) => updateRankings(e)}>
+                    Save order
+                  </Button>
+                  <Link
+                    className="btn btn-light ml-2"
+                    to={`/items/${rankingGroupId}`}
+                  >
+                    Items
+                  </Link>
+                  <Link className="btn btn-secondary ml-2 float-right" to={`/`}>
+                    Back
+                  </Link>
+                </Col>
               </div>
             </Form>
             <DragDropContext onDragEnd={handleOnDragEnd}>
