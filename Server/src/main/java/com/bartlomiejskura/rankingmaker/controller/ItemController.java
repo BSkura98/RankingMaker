@@ -2,6 +2,7 @@ package com.bartlomiejskura.rankingmaker.controller;
 
 import com.bartlomiejskura.rankingmaker.exception.EntityNotFoundException;
 import com.bartlomiejskura.rankingmaker.model.Item;
+import com.bartlomiejskura.rankingmaker.model.ItemStatistics;
 import com.bartlomiejskura.rankingmaker.model.Ranking;
 import com.bartlomiejskura.rankingmaker.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,15 @@ public class ItemController {
     public List<Item> getAllInGroupNotBelongingToRanking(@RequestParam(name="rankingGroupId")Long rankingGroupId, @RequestParam(name="rankingId")Long rankingId){
         try {
             return itemService.getAllInGroupNotBelongingToRanking(rankingGroupId, rankingId);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
+    }
+
+    @GetMapping("/getStatistics")
+    public ItemStatistics getStatistics(@RequestParam(name="itemId")Long itemId){
+        try {
+            return itemService.getStatistics(itemId);
         } catch (EntityNotFoundException e) {
             return null;
         }
