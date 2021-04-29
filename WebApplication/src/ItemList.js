@@ -117,6 +117,7 @@ const ItemList = () => {
                       >
                         Delete
                       </Button>
+                      <Link to={`/itemStatistics/${item.id}`}>Statistics</Link>
                     </Row>
                   </ListGroupItem>
                 );

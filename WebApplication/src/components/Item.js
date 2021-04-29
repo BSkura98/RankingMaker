@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, ListGroupItem, Row, Button } from "react-bootstrap";
 import { Draggable } from "react-beautiful-dnd";
+import { Link } from "react-router-dom";
 
 const Item = ({
   item,
@@ -52,6 +53,7 @@ const Item = ({
             >
               Delete
             </Button>
+            <Link to={`/itemStatistics/${item.item.id}`}>Statistics</Link>
           </Row>
           {provided.placeholder}
         </ListGroupItem>
