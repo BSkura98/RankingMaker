@@ -13,15 +13,18 @@ This project is divided into two parts: server and web application. It allows yo
 * MySQL
 
 ## Features
+* Create group of rankings
 * Add a new ranking
 * Add items to ranking
 * Change position of items in ranking
 * Save ranking in the database
+* Statistics for items
 
 To-do list:
-* Create group of rankings
-* Statistics for items
-* Delete items
+* Add renaming items and rankings
+* Fix deleting rankings
+* More statistics for items
+* Improve charts
 
 ## Status
 Project is _in progress_
