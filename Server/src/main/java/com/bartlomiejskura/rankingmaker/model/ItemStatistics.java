@@ -6,6 +6,7 @@ public class ItemStatistics {
     private Item item;
     private Ranking firstRanking;
     private Integer highestPosition;
+    private Integer lowestPosition;
     private Ranking highestPositionRanking;
     private Map<String, Integer> allPositions;
 
@@ -50,5 +51,13 @@ public class ItemStatistics {
 
     public void setAllPositions(Map<String, Integer> allPositions) {
         this.allPositions = allPositions;
+    }
+
+    public Integer getLowestPosition() {
+        return lowestPosition;
+    }
+
+    public void setLowestPosition(Integer lowestPosition) {
+        this.lowestPosition = lowestPosition;
     }
 }

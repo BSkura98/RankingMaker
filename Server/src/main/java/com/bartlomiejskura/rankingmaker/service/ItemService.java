@@ -80,6 +80,7 @@ public class ItemService {
         List<Ranking> rankings = item.getRankingGroup().getRankings();
         rankings.sort((o1, o2) -> o1.getPosition() < o2.getPosition() ? -1 : 1);
         int highestPosition = Integer.MAX_VALUE;
+        int lowestPosition = Integer.MIN_VALUE;
         Ranking highestPositionRanking = null;
         Ranking firstRanking = null;
         Map<String, Integer> allPositions = new LinkedHashMap<>();
@@ -94,6 +95,9 @@ public class ItemService {
                         highestPosition = currentPosition;
                         highestPositionRanking = ranking;
                     }
+                    if(currentPosition>lowestPosition){
+                        lowestPosition = currentPosition;
+                    }
                     if(firstRanking==null){
                         firstRanking = ranking;
                     }
@@ -103,7 +107,7 @@ public class ItemService {
             allPositions.put(ranking.getName(), currentPosition);
         }
         if(highestPosition==Integer.MAX_VALUE){
-            highestPosition = 0;
+            highestPosition = lowestPosition+10;
         }
 
         ItemStatistics statistics = new ItemStatistics();
@@ -112,6 +116,7 @@ public class ItemService {
         statistics.setHighestPositionRanking(highestPositionRanking);
         statistics.setFirstRanking(firstRanking);
         statistics.setAllPositions(allPositions);
+        statistics.setLowestPosition(lowestPosition);
         return statistics;
     }
 }
