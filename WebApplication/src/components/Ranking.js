@@ -11,7 +11,7 @@ import {
   ListGroupItem,
 } from "react-bootstrap";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import Item from "./components/Item";
+import Item from "./Item";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 

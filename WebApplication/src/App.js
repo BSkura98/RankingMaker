@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import RankingList from "./RankingList";
-import Ranking from "./Ranking";
-import RankingGroupList from "./RankingGroupList";
-import ItemList from "./ItemList";
-import ItemStatistics from "./ItemStatistics";
+import RankingList from "./components/RankingList";
+import Ranking from "./components/Ranking";
+import RankingGroupList from "./components/RankingGroupList";
+import ItemList from "./components/ItemList";
+import ItemStatistics from "./components/ItemStatistics";
 
 const ReactRouterSetup = () => {
   return (
