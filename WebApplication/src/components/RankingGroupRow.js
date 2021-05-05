@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, ListGroupItem, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -9,6 +9,8 @@ const RankingGroupRow = ({
   setRankingGroups,
   rankingGroups,
 }) => {
+  const [deleteButtonClicked, setDeleteButtonClicked] = useState(false);
+
   const deleteRankingGroup = async (e) => {
     e.preventDefault();
     const result = await api.delete(`?rankingGroupId=${rankingGroup.id}`);
@@ -32,12 +34,22 @@ const RankingGroupRow = ({
         >
           Open
         </Link>
-        <Button
-          className="btn btn-danger ml-4"
-          onClick={(e) => deleteRankingGroup(e)}
-        >
-          Delete
-        </Button>
+        {deleteButtonClicked ? (
+          <Button
+            variant="outlined"
+            className="btn btn-outline-danger ml-4"
+            onClick={(e) => deleteRankingGroup(e)}
+          >
+            Confirm delete
+          </Button>
+        ) : (
+          <Button
+            className="btn btn-danger ml-4"
+            onClick={() => setDeleteButtonClicked(true)}
+          >
+            Delete
+          </Button>
+        )}
       </Row>
     </ListGroupItem>
   );
