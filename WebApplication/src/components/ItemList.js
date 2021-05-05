@@ -108,7 +108,7 @@ const ItemList = () => {
             <ListGroup>
               {items.map((item, index) => {
                 return (
-                  <ListGroupItem>
+                  <ListGroupItem key={index}>
                     <Row>
                       <Col className="text-left">
                         <Row>

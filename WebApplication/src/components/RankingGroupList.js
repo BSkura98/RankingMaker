@@ -36,7 +36,6 @@ const RankingGroupList = () => {
     });
     setLoading(false);
     setRankingGroups(data);
-    console.log(rankingGroups);
   };
 
   useEffect(() => {
@@ -69,7 +68,6 @@ const RankingGroupList = () => {
             </Form>
             <ListGroup>
               {rankingGroups.map((rankingGroup, index) => {
-                console.log("RankinGroupList " + rankingGroup);
                 return (
                   <RankingGroupRow
                     rankingGroup={rankingGroup}
@@ -77,6 +75,7 @@ const RankingGroupList = () => {
                     api={api}
                     setRankingGroups={setRankingGroups}
                     rankingGroups={rankingGroups}
+                    key={index}
                   ></RankingGroupRow>
                 );
               })}

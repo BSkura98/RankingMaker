@@ -26,7 +26,6 @@ const useFetch = (url) => {
   useEffect(async () => {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     setData(data);
     setLoading(false);
   }, []);
@@ -122,7 +121,6 @@ function Ranking() {
           ranking.id
       )
       .then(({ data }) => data);
-    console.log(data);
     data = data.map((item) => {
       return { ...item, id: item.id.toString() };
     });
@@ -169,7 +167,7 @@ function Ranking() {
               <ListGroup className="overflow-auto" style={{ height: "150px" }}>
                 {existingItems.map((item, index) => {
                   return (
-                    <ListGroupItem>
+                    <ListGroupItem key={index}>
                       <Row>
                         <Col className="text-left">
                           <Row>
@@ -257,6 +255,7 @@ function Ranking() {
                             items={items}
                             setItems={setItems}
                             rankingId={rankingId}
+                            key={index}
                           />
                         );
                       })}

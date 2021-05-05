@@ -139,6 +139,7 @@ const RankingList = () => {
                           api={api}
                           setRankings={setRankings}
                           rankings={rankings}
+                          key={index}
                         />
                       );
                     })}
