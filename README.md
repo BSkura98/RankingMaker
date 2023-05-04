@@ -27,4 +27,4 @@ To-do list:
 * Improve charts
 
 ## Status
-Project is _in progress_
+Project is _on hold_
